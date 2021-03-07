@@ -8,7 +8,7 @@ We guarantee, that all A, B, C, D have same length of N where 0 ≤ N ≤ 1000.
 from typing import List
 
 
-def BinSearchVirt(li: List[int], x: int):
+def BinSearch(li: List[int], x: int):
     """бинарный поиск, возвращающий результат наличия элемента в листе"""
     if x > li[-1] or x < li[0]:  # если сумма изначально вне границ листа
         return False
@@ -37,7 +37,10 @@ def delete_elements(a: List[int], b: List[int], c: List[int], d: List[int]):
     local_max = max(a[-1], b[-1], c[-1], d[-1])
     while local_sum - 2 * local_max < 0:
         lists.get(right_side.index(local_max)).pop()
-        local_sum = sum([a[-1], b[-1], c[-1], d[-1]])
+        try:
+            local_sum = sum([a[-1], b[-1], c[-1], d[-1]])
+        except:
+            return False
         local_max = max(a[-1], b[-1], c[-1], d[-1])
         right_side = [a[-1], b[-1], c[-1], d[-1]]
 
@@ -45,9 +48,13 @@ def delete_elements(a: List[int], b: List[int], c: List[int], d: List[int]):
     local_sum = sum([a[0], b[0], c[0], d[0]])
     while sum(left_side) - 2 * local_min > 0:
         lists.get(left_side.index(local_min)).pop(0)
-        local_sum = sum([a[0], b[0], c[0], d[0]])
+        try:
+            local_sum = sum([a[0], b[0], c[0], d[0]])
+        except:
+            return False
         local_min = min(a[0], b[0], c[0], d[0])
         left_side = [a[0], b[0], c[0], d[0]]
+    return True
 
 
 def check_sum_of_four(a: List[int], b: List[int], c: List[int], d: List[int]) -> int:
@@ -57,12 +64,13 @@ def check_sum_of_four(a: List[int], b: List[int], c: List[int], d: List[int]) ->
     c.sort()
     d.sort()
     # удаление элементов, которые точно не могут участвовать в искомой сумме
-    delete_elements(a, b, c, d)
+    if not delete_elements(a, b, c, d):
+        return 0
     for item1 in a:
         for item2 in b:
             tmp = item1 + item2
             for item3 in c:
                 # поиск суммы трёх элементов с обратным знаком в листе d
-                if BinSearchVirt(d, -(tmp + item3)):
+                if BinSearch(d, -(tmp + item3)):
                     count += 1
     return count
