@@ -1,4 +1,3 @@
-
 """
 Write down the function, which reads input line-by-line, and find maximum and minimum values.
 Function should return a tuple with the max and min values.
@@ -23,3 +22,5 @@ def find_maximum_and_minimum(file_name: str) -> Tuple[int, int]:
             if tmp < min:
                 min = tmp
         return (min, max)
+
+print(find_maximum_and_minimum("./hw1/some_file2.txt"))
