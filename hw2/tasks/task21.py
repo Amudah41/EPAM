@@ -8,7 +8,7 @@ Given a file containing text. Complete using only default collections:
 """
 import string
 import unicodedata
-from collections import defaultdict
+from collections import Counter, defaultdict
 from typing import List
 
 
@@ -97,9 +97,3 @@ def get_most_common_non_ascii_char(file_path: str) -> str:
                 if not letter.isascii():
                     symbols[letter] += 1
         return max(symbols.items(), key=lambda x: x[1])[0]
-
-print(count_non_ascii_chars("./hw2/data1.txt"))
-print(count_punctuation_chars("./hw2/data1.txt"))
-print(get_longest_diverse_words("./hw2/data1.txt"))
-print(get_rarest_char("./hw2/data1.txt"))
-print(get_most_common_non_ascii_char("./hw2/data1.txt"))
