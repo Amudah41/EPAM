@@ -8,8 +8,10 @@ from hw2.tasks.task24 import cache
 def func1(a, b):
     return (a ** b) ** 2
 
+
 def func2(a, b, c):
     return a * b * c
+
 
 @pytest.mark.parametrize(
     ["func", "some"],

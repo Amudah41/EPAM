@@ -18,6 +18,7 @@ def test_combinations(
 
     assert actual_result == expected_result
 
+
 @pytest.mark.parametrize(
     ["value1", "value2", "value3", "expected_result"],
     [

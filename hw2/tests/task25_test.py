@@ -15,6 +15,7 @@ def test_custom_range_1(seq: Iterable[any], value: any, expected_result: List[an
 
     assert actual_result == expected_result
 
+
 @pytest.mark.parametrize(
     ["seq", "value1", "value2", "expected_result"],
     [
@@ -33,6 +34,7 @@ def test_custom_range_2(
 
     assert actual_result == expected_result
 
+
 @pytest.mark.parametrize(
     ["seq", "value1", "value2", "value3", "expected_result"],
     [(string.ascii_lowercase, "p", "g", -2, ["p", "n", "l", "j", "h"])],
@@ -47,6 +49,7 @@ def test_custom_range_3(
     actual_result = custom_range(seq, value1, value2, value3)
 
     assert actual_result == expected_result
+
 
 @pytest.mark.parametrize(
     ["seq", "value1", "value2", "value3", "value4"],
