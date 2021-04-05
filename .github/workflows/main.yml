@@ -3,7 +3,7 @@ on: push
 jobs:
   code_quality:
     runs-on: ubuntu-latest
-    name: Checks with black, isort and possibly run tests
+    name: Checks with isort and possibly run tests
     container: python:3.9
     steps:
       - name: Checkout code
@@ -12,7 +12,5 @@ jobs:
         run: |
           pip install black isort pytest
           ls -la 
-          black --pyi .
-          black --check .
           isort --check .
           py.test -x homework*
