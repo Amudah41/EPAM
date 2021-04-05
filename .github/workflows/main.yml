@@ -13,4 +13,4 @@ jobs:
           pip install black pytest
           ls -la 
           black --check .
-          py.test -x homework*
+          py.test -x .
