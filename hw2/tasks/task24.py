@@ -23,13 +23,15 @@ from typing import Callable
 
 def cache(func: Callable) -> Callable:
     log = {}
+
     def custom_hash(*args, **kwargs):
         if args in log:
             return log[args]
-        output = func(*args)
-        log[args] = output
-        return output
+        log[args] = func(*args)
+        return log[args]
+
     return custom_hash
+
 
 def func(a, b):
     return (a ** b) ** 2
