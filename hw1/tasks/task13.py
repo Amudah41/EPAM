@@ -23,4 +23,5 @@ def find_maximum_and_minimum(file_name: str) -> Tuple[int, int]:
                 min = tmp
         return (min, max)
 
+
 print(find_maximum_and_minimum("./hw1/some_file2.txt"))
