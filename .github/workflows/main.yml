@@ -1,3 +1,4 @@
+
 name: CI
 on: push
 jobs:
@@ -10,9 +11,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Run script
         run: |
-          pip install black isort pytest
-          ls -la 
-          black --pyi .
+          pip install black pytest
+          ls -la
           black --check .
-          isort --check .
-          py.test -x homework*
+          py.test -x .
