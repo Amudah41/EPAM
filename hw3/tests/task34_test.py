@@ -10,5 +10,5 @@ from hw3.tasks.task34 import is_armstrong
         (10, False),
     ],
 )
-def test_is_armstrong_(number: int, expected_result: bool):
+def test_is_armstrong(number: int, expected_result: bool):
     assert is_armstrong(number) is expected_result

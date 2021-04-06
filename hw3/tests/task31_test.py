@@ -5,15 +5,8 @@ import pytest
 from hw3.tasks.task31 import cache
 
 
-@pytest.mark.parametrize(
-    ["count_times", "expected_result"],
-    [
-        (2, True),
-        (3, True),
-        (0, True),
-    ],
-)
-def test_cache_good_working(count_times: int, expected_result: bool):
+@pytest.mark.parametrize("count_times", [2, 3, 0])
+def test_cache_good_working(count_times: int):
     @cache(times=count_times)
     def f():
         return timeit.default_timer()
