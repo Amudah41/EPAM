@@ -19,12 +19,10 @@ def test_cache_good_working(count_times: int):
 
 
 def test_cache_bad_working():
-
-    try:
+    with pytest.raises(ValueError, match="times must be non-negative"):
 
         @cache(times=-1)
         def f():
-            return timeit.default_timer()
+            ...
 
-    except:
-        assert True
+    assert True
