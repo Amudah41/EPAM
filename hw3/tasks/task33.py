@@ -38,7 +38,3 @@ def make_filter(**keywords):
 # make_filter(name='polly', type='bird').apply(sample_data) should return only second entry from the list
 
 # There are multiple bugs in this code. Find them all and write tests for faulty cases.
-
-
-def second_entry_produser() -> List[dict]:
-    return make_filter(name="polly", type="bird").apply(sample_data)
