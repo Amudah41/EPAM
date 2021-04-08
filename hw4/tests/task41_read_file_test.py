@@ -5,7 +5,6 @@ import hw4
 from hw4.tasks.task41_read_file import (
     file_producer,
     is_useful_number,
-    read_magic_number_all_exceptions,
     read_magic_number_only_value_error,
 )
 
