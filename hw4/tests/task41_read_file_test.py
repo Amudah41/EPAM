@@ -1,6 +1,4 @@
-from typing import Callable, List, NamedTuple
-from collections import namedtuple
-import requests
+from typing import Callable, List
 from unittest.mock import MagicMock, patch
 import pytest
 import hw4
