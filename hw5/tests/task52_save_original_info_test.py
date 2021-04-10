@@ -3,11 +3,6 @@ import pytest
 from hw5.tasks.task52_save_original_info import custom_sum
 
 
-# @pytest.mark.parametrize(
-#     "magic_functions",[ __doc__, __name__, __original_func]
-# )
-
-
 def init_of_function_for_test():
     custom_sum([1, 2, 3], [4, 5])
     custom_sum(1, 2, 3, 4)
