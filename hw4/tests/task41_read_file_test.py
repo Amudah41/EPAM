@@ -1,6 +1,8 @@
 from typing import Callable, List
 from unittest.mock import MagicMock, patch
+
 import pytest
+
 import hw4
 from hw4.tasks.task41_read_file import (
     file_producer,
