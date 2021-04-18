@@ -2,7 +2,6 @@ import string
 from typing import Iterable, List
 
 import pytest
-
 from hw2.tasks.task25 import custom_range
 
 

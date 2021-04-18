@@ -18,6 +18,7 @@ val_2 = cache_func(*some)
 assert val_1 is val_2
 
 """
+import functools
 from typing import Callable
 
 
@@ -28,7 +29,7 @@ def cache(func: Callable) -> Callable:
         if args in log:
             return log[args]
         log[args] = func(*args)
-        return log[args]
+        return func(*args)
 
     return custom_hash
 

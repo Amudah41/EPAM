@@ -1,7 +1,6 @@
 from typing import Tuple
 
 import pytest
-
 from hw1.tasks.task13 import find_maximum_and_minimum
 
 

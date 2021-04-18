@@ -1,7 +1,6 @@
 from typing import Any, List, Tuple
 
 import pytest
-
 from hw2.tasks.task23 import combinations
 
 

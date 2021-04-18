@@ -1,7 +1,6 @@
 from typing import List
 
 import pytest
-
 from hw2.tasks.task21 import (
     count_non_ascii_chars,
     count_punctuation_chars,
