@@ -29,7 +29,8 @@ def cache(func: Callable) -> Callable:
         if args in log:
             return log[args]
         log[args] = func(*args)
-        return func(*args)
+        return log[args]
+
 
     return custom_hash
 
