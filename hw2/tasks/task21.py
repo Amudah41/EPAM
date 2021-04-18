@@ -61,6 +61,7 @@ def get_longest_diverse_words(file_path: str) -> List[str]:
                 word = ""
         return stack
 
+
 def get_rarest_char(file_path: str) -> str:
     with open(file_path, "r", encoding="unicode-escape") as fi:
         symbols = defaultdict(int)
@@ -69,6 +70,7 @@ def get_rarest_char(file_path: str) -> str:
                 symbols[letter] += 1
 
         return min(symbols.items(), key=lambda x: x[1])[0]
+
 
 def count_punctuation_chars(file_path: str) -> int:
     with open(file_path, "r", encoding="unicode-escape") as fi:
@@ -79,6 +81,7 @@ def count_punctuation_chars(file_path: str) -> int:
                     count += 1
         return count
 
+
 def count_non_ascii_chars(file_path: str) -> int:
     with open(file_path, "r", encoding="unicode-escape") as fi:
         count = 0
@@ -87,6 +90,7 @@ def count_non_ascii_chars(file_path: str) -> int:
                 if ord(letter) > 127:
                     count += 1
         return count
+
 
 def get_most_common_non_ascii_char(file_path: str) -> str:
 

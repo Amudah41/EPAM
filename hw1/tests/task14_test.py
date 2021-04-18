@@ -1,7 +1,6 @@
 from typing import List
 
 import pytest
-
 from hw1.tasks.task14 import BinSearch, check_sum_of_four, delete_elements
 
 
@@ -17,6 +16,7 @@ def test_BinSearch(value1: List[int], value2: int, expected_result: bool):
     actual_result = BinSearch(value1, value2)
 
     assert actual_result == expected_result
+
 
 @pytest.mark.parametrize(
     ["value1", "value2", "value3", "value4", "expected_result"],
@@ -48,6 +48,7 @@ def test_delete_elements(
     actual_result = delete_elements(value1, value2, value3, value4)
 
     assert actual_result == expected_result
+
 
 @pytest.mark.parametrize(
     ["value1", "value2", "value3", "value4", "expected_result"],
