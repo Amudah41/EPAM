@@ -1,5 +1,4 @@
 import pytest
-
 from hw1.tasks.task12 import check_fibonacci
 
 

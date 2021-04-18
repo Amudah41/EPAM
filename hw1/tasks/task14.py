@@ -26,6 +26,7 @@ def BinSearch(li: List[int], x: int):
     else:
         return False
 
+
 def delete_elements(a: List[int], b: List[int], c: List[int], d: List[int]):
     """Удаление элементов листов, которые сильно больше/меньше остальных"""
     lists = {0: a, 1: b, 2: c, 3: d}
@@ -54,6 +55,7 @@ def delete_elements(a: List[int], b: List[int], c: List[int], d: List[int]):
         local_min = min(a[0], b[0], c[0], d[0])
         left_side = [a[0], b[0], c[0], d[0]]
     return True
+
 
 def check_sum_of_four(a: List[int], b: List[int], c: List[int], d: List[int]) -> int:
     count = 0

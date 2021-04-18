@@ -1,7 +1,6 @@
 from typing import Callable, List, Tuple
 
 import pytest
-
 from hw2.tasks.task24 import cache
 
 
@@ -29,4 +28,4 @@ def test_cache(func: Callable, some: Tuple[int]):
     val_1 = cache_func(*some)
     val_2 = cache_func(*some)
 
-    assert val_1 is val_2
+    assert val_1 == val_2

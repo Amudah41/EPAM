@@ -1,7 +1,6 @@
-from typing import List, Tuple
+from typing import Callable, List, Tuple
 
 import pytest
-
 from hw2.tasks.task22 import major_and_minor_elem
 
 

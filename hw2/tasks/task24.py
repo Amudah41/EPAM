@@ -18,6 +18,7 @@ val_2 = cache_func(*some)
 assert val_1 is val_2
 
 """
+import functools
 from typing import Callable
 
 
