@@ -1,6 +1,6 @@
-import pytest
 from typing import List
 
+import pytest
 from tasks.task05 import find_maximal_subarray_sum
 
 

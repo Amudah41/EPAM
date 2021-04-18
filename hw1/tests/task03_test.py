@@ -1,6 +1,6 @@
-import pytest
 from typing import Tuple
 
+import pytest
 from tasks.task03 import find_maximum_and_minimum
 
 
