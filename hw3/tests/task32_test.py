@@ -12,7 +12,7 @@ from hw3.tasks.task32 import pallelization
         (160, 60),
     ],
 )
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_pallelization(count_of_processes: int, time_limit: int):
     actual_result = pallelization(count_of_processes)
 
