@@ -23,34 +23,38 @@
 # ..     ? 2
 # ..     '2'
 
-import timeit
 from typing import Callable
+from collections import defaultdict
 
 
 def cache(times: int) -> Callable:
     if times < 0:
         raise ValueError("times must be non-negative")
 
-    def custom_hash(func: Callable, *args, **kwargs):
-        def my_wrapper():
+    def custom_hash(func: Callable):
+        log = defaultdict(list)
 
-            if my_wrapper.count < times:
-                my_wrapper.count += 1
-                return my_wrapper.tmp
-            my_wrapper.count = 1
-            my_wrapper.tmp = func(*args, **kwargs)
-            return my_wrapper.tmp
+        def my_wrapper(*args, **kwargs):
+            if times == 0:
+                return func(*args, **kwargs)
+            if not args in log:
+                log[args].append(1)
+                log[args].append(func(*args, **kwargs))
+                return log[args][1]
+            if log[args][0] < times:
+                log[args][0] += 1
+                return log[args][1]
+            return log.pop(args)[1]
 
-        my_wrapper.count = 0
-        my_wrapper.tmp = func(*args, **kwargs)
         return my_wrapper
 
     return custom_hash
 
 
-# @cache(times=3)
+# @cache(times=1)
 # def f():
 #     return input('? ')
+
 
 if __name__ == "__main__":
     ...
