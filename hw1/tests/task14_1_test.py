@@ -1,7 +1,6 @@
 from typing import List
 
 import pytest
-
 from hw1.tasks.task14_1 import check_sum_of_four
 
 
