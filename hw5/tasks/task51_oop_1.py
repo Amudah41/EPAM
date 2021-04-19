@@ -38,25 +38,26 @@ PEP8 соблюдать строго.
 давать логичные подходящие имена.
 """
 from datetime import datetime, timedelta
+from typing import Union
 
 
 class Homework:
-    def __init__(self, text, deadline):
+    def __init__(self, text: str, deadline: datetime) -> None:
         self.text = text
         self.deadline = timedelta(deadline)
         self.created = datetime.today()
 
-    def is_active(self):
+    def is_active(self) -> bool:
         return datetime.today() - self.created < self.deadline
 
 
 class Student:
-    def __init__(self, last_name, first_name):
+    def __init__(self, last_name: str, first_name: str) -> None:
         self.last_name = last_name
         self.first_name = first_name
 
     @staticmethod
-    def do_homework(student_homework):
+    def do_homework(student_homework: Homework) -> Union[None, Homework]:
         if not student_homework.is_active():
             print("You are late")
             return None
@@ -64,12 +65,12 @@ class Student:
 
 
 class Teacher:
-    def __init__(self, last_name, first_name):
+    def __init__(self, last_name: str, first_name: str) -> None:
         self.last_name = last_name
         self.first_name = first_name
 
     @staticmethod
-    def create_homework(homework_text, days):
+    def create_homework(homework_text: str, days: int) -> Homework:
         return Homework(homework_text, days)
 
 
