@@ -30,15 +30,5 @@ def instances_counter(cls):
     return Wrapper
 
 
-@instances_counter
-class User:
-    pass
-
-
-@instances_counter
-class OtherUser:
-    pass
-
-
 if __name__ == "__main__":
     ...
