@@ -6,4 +6,3 @@
 4. Testing and Debuging
 5. OOP vol.1
 6. OOP vol.2
-7. Idiomatic Python
