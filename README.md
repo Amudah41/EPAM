@@ -1,4 +1,4 @@
-<h1>Homeworks in EPAM Traning Center.</h1>
+<h1>Homeworks in the EPAM Traning Center.</h1>
 
 1. Python introduction vol.1
 2. Python introduction vol.2
