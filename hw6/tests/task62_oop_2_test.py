@@ -111,12 +111,6 @@ def test_positive_results_of_checking_hws_after_reset_all_results():
         assert res.solution == None
 
 
-def test_reset_results_with_ValueError():
-    with pytest.raises(ValueError, match="You can reset only Homework objects"):
-        Teacher.reset_results("fff")
-    assert True
-
-
 def test_reset_results_with_KeyError():
     teacher = Teacher("_", "_")
     new_homework = teacher.create_homework("_", 10)

@@ -77,7 +77,7 @@ class Human:
 
 
 class Student(Human):
-    def do_homework(self, student_homework: Homework, solution: str):
+    def do_homework(self, student_homework: Homework, solution: str) -> "Homework":
         if not student_homework.is_active():
             raise DeadlineError("You are late")
         return HomeworkResult(self, student_homework, solution)
@@ -104,11 +104,9 @@ class Teacher(Human):
         return False
 
     @staticmethod
-    def reset_results(homework=None) -> None:
+    def reset_results(homework: Homework = None) -> None:
         if homework == None:
             Teacher.homework_done.clear()
-        elif not homework.__class__ is Homework:
-            raise ValueError("You can reset only Homework objects")
         elif not homework in Teacher.homework_done:
             raise KeyError("There is not such homework in homework_done")
         else:
