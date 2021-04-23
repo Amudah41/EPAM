@@ -7,27 +7,32 @@ reset_instances_counter - сбросить счетчик экземпляров
 Имя декоратора и методов не менять
 Ниже пример использования
 """
+import types
 
 
 def instances_counter(cls):
-    class Wrapper(cls):
+
+    cls.count_of_obj = 0
+
+    def __init__(*args, **kwargs):
+        cls.count_of_obj += 1
+        object.__new__(cls, *args, **kwargs)
+
+    def new_get_created_instances(cls):
+        return cls.count_of_obj
+
+    def reset_instances_counter(cls):
+        output = cls.count_of_obj
         cls.count_of_obj = 0
+        return output
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.__class__.count_of_obj += 1
+    cls.__init__ = types.MethodType(__init__, cls)
 
-        @classmethod
-        def get_created_instances(cls):
-            return cls.count_of_obj
+    cls.get_created_instances = types.MethodType(new_get_created_instances, cls)
 
-        @classmethod
-        def reset_instances_counter(cls):
-            output = cls.count_of_obj
-            cls.count_of_obj = 0
-            return output
+    cls.reset_instances_counter = types.MethodType(reset_instances_counter, cls)
 
-    return Wrapper
+    return cls
 
 
 if __name__ == "__main__":
