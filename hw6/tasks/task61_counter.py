@@ -18,7 +18,7 @@ def instances_counter(cls):
         cls.count_of_obj += 1
         object.__new__(cls, *args, **kwargs)
 
-    def new_get_created_instances(cls):
+    def get_created_instances(cls):
         return cls.count_of_obj
 
     def reset_instances_counter(cls):
@@ -28,7 +28,7 @@ def instances_counter(cls):
 
     cls.__init__ = types.MethodType(__init__, cls)
 
-    cls.get_created_instances = types.MethodType(new_get_created_instances, cls)
+    cls.get_created_instances = types.MethodType(get_created_instances, cls)
 
     cls.reset_instances_counter = types.MethodType(reset_instances_counter, cls)
 
