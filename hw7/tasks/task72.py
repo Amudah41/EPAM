@@ -21,18 +21,17 @@ Examples:
 from itertools import zip_longest
 
 
-def yeild_str(my_str: str):
+def backspaced_elemets_and_reverse_str(my_str: str):
     my_str = iter(reversed(my_str))
     for a in my_str:
         if a == "#":
             try:
-                _ = next(my_str)
-                while _ == "#":
-                    _ = next(my_str)
+                next_item = next(my_str)
+                while next_item == "#":
+                    next_item = next(my_str)
             except StopIteration:
                 break
             continue
-        print(a, my_str)
         yield a
 
 
@@ -41,7 +40,8 @@ def backspace_compare(s: str = "", t: str = "") -> bool:
         (
             first_str_letter == second_str_letter
             for first_str_letter, second_str_letter in zip_longest(
-                yeild_str(s), yeild_str(t)
+                backspaced_elemets_and_reverse_str(s),
+                backspaced_elemets_and_reverse_str(t),
             )
         )
     )
