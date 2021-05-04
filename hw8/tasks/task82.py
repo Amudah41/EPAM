@@ -60,10 +60,6 @@ Avoid reading entire table into memory. When iterating through records, start re
 When writing tests, it's not always neccessary to mock database calls completely. Use supplied example.sqlite file as database fixture file.
 
 """
-# Collection (__len__, __iter__, __contains__, __getattr__)
-
-
-# presidents = TableData(database_name='example.sqlite', table_name='presidents')
 import sqlite3
 
 
