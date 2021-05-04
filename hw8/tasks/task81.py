@@ -33,10 +33,10 @@ from typing import Union, Tuple
 class KeyValueStorage:
     def __init__(self, path: str) -> None:
         with open(path) as input:
-            self.items = {key: value for key, value in self.splited_lines(input)}
+            self.items = {key: value for key, value in self.splited_line(input)}
 
     @staticmethod
-    def splited_lines(input: Iterable) -> Tuple[str, str]:
+    def splited_line(input: Iterable) -> Tuple[str, str]:
         for line in input:
             line = line.replace("\n", "").split("=")
             if not line[0].isidentifier() or iskeyword(line[0]):
