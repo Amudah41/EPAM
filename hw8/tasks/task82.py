@@ -61,6 +61,7 @@ When writing tests, it's not always neccessary to mock database calls completely
 
 """
 import sqlite3
+from typing import Tuple, Any, List, Dict
 
 
 class TableData:
@@ -68,38 +69,39 @@ class TableData:
         self.conn = sqlite3.connect(database_name)
         self.table_name = table_name
 
-    def __len__(self):
+    def __len__(self) -> int:
         cursor = self.conn.cursor()
         cursor.execute(f"SELECT COUNT(*) FROM {self.table_name}")
         return cursor.fetchone()[0]
 
-    def __contains__(self, item_name: str):
+    def __contains__(self, item_name: str) -> bool:
         cursor = self.conn.cursor()
         cursor.execute(
             f"SELECT * FROM {self.table_name} where name=:name", {"name": item_name}
         )
         return bool(cursor.fetchall())
 
-    def __getitem__(self, item_name: str):
+    def __getitem__(self, item_name: str) -> Tuple[Any]:
         cursor = self.conn.cursor()
         cursor.execute(
             f"SELECT * FROM {self.table_name} where name=:name", {"name": item_name}
         )
         return cursor.fetchone()
 
-    def __iter__(self):
+    def __iter__(self) -> "TableData":
         self.number_of_row = 0
         self.colomns = self.name_of_table_colomns()
+        print(type(self))
         return self
 
-    def name_of_table_colomns(self):
+    def name_of_table_colomns(self) -> List[str]:
         cursor = self.conn.cursor()
         cursor.execute(
             f"SELECT name FROM PRAGMA_TABLE_INFO(:table)", {"table": self.table_name}
         )
         return [colomn[0] for colomn in cursor.fetchall()]
 
-    def __next__(self):
+    def __next__(self) -> Dict[str, Any]:
         cursor = self.conn.cursor()
         cursor.execute(
             f"SELECT * from presidents limit {self.number_of_row}, {self.number_of_row +1}"
