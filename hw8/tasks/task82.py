@@ -90,8 +90,7 @@ class TableData:
 
     def __iter__(self) -> "TableData":
         self.number_of_row = 0
-        self.colomns = self.name_of_table_colomns()
-        print(type(self))
+        self.colomns = [name for name in iter(self.name_of_table_colomns())]
         return self
 
     def name_of_table_colomns(self) -> List[str]:
@@ -99,9 +98,10 @@ class TableData:
         cursor.execute(
             f"SELECT name FROM PRAGMA_TABLE_INFO(:table)", {"table": self.table_name}
         )
-        return [colomn[0] for colomn in cursor.fetchall()]
+        while row_name := cursor.fetchone():
+            yield row_name[0]
 
-    def __next__(self) -> Dict[str, Any]:
+    def __next__(self):
         cursor = self.conn.cursor()
         cursor.execute(
             f"SELECT * from presidents limit {self.number_of_row}, {self.number_of_row +1}"
