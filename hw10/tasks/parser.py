@@ -1,27 +1,26 @@
-from multiprocessing import Pool
-from concurrent.futures import ThreadPoolExecutor
+# from multiprocessing import Pool
+# from concurrent.futures import ThreadPoolExecutor
 import json
 from datetime import datetime
-from bs4.element import ProcessingInstruction
+# from bs4.element import ProcessingInstruction
 import requests
 from bs4 import BeautifulSoup
+import asyncio
+import aiohttp
+from requests.models import Response
+from collections import defaultdict
 
 
 def get_html(url):
-    response = requests.get(url)
+    with requests.Session() as session:
+        response = session.get(url)
     return response.text
 
 
 async def fetch_response(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
-            return response
-
-tasks = [asyncio.create_task(fetch_response(url))]
-
-await asyncio.gather(*tasks)
-
-await response.text()
+            return await response.text()
 
 
 def get_all_links_and_growth(html):
@@ -68,35 +67,43 @@ def convert(price, USD):
     return price * USD
 
 
-def get_page_data(html):
+async def get_page_data(html, growth):
     soup = BeautifulSoup(html, 'lxml')
+    lock = asyncio.Lock()
 
-    code_name_price_area = soup.find('div', class_="price-section__row")
+    # code_name_price_area = soup.find('div', class_="price-section__row")
 
     try:
-        code = code_name_price_area.find(
+        code = soup.find('div', class_="price-section__row").find(
             class_="price-section__category").find_next().text[2:]
     except:
         code = ''
 
     try:
-        name = code_name_price_area.find(
+        name = soup.find('div', class_="price-section__row").find(
             class_="price-section__label").text[:-1]
     except:
         name = ''
 
+    async with lock:
+        add_to_buffer(code, name,growth, "growth")
+
     try:
-        price = convert(code_name_price_area.find(
+        price = convert(soup.find('div', class_="price-section__row").find(
             class_="price-section__current-value").text)
     except:
-        price = ''
+        price = 0
 
+    async with lock:
+        add_to_buffer(code, name,price, 'price')
     try:
         PE = to_float(soup.find(
             'div', class_="snapshot__data-item").find(text=True, recursive=False))
 
     except:
-        PE = ""
+        PE = 0
+    async with lock:
+        add_to_buffer(code, name, PE, 'PE')
 
     try:
         low_52_week = to_float(
@@ -106,82 +113,112 @@ def get_page_data(html):
             class_="snapshot__data-item snapshot__data-item--small snapshot__data-item--right").find(text=True, recursive=False))
         potential_profit = (high_52_week - low_52_week) * 100 / low_52_week
     except:
-        potential_profit = ''
+        potential_profit = 0
 
-    data = {'code': code, 'name': name, 'price': price,
-            "P/E": PE, "potential profit": potential_profit}
-    return data
+    async with lock:
+        add_to_buffer(code, name,potential_profit, "potential_profit")
 
 
-def write_json(data):
-    with open('example.json', 'a') as f:
+def write_json(file, data):
+
+
+    with open(file, 'a') as f:
         json.dump(data, f, indent=4)
-        # print(data['name'], 'parsed')
+    print(f'{file} completed!')
 
 
-def make_all(my_list):
-    link, growth = my_list
 
-    tasks = [asyncio.create_task(fetch_response(link))]
-
-    await asyncio.gather(*tasks)
-
-    await response.text()
-    html = get_html(link)
-    data = get_page_data(html)
-    data["growth"] = growth
-
-    return data
+async def make_all(link, growth):
+    html = await fetch_response(link)
+    # response = await fetch_response(link)
+    # print(response)
+    # html = await response.text()
+    # print(html)
+    await get_page_data(html, growth)
 
     # write_json(data)
 
 
-async def write_results(data, top_10_price=[], top_10_PE=[],
-                        top_10_growth=[], top_10_potential_profit=[]):
-    tops = dict(('price',"P/E" "potential profit"),(top_10_price, top_10_PE, top_10_potential_profit)):
-        add_to_buffer(data, top, parameter)
+def write_results(func, top_10_price=[], top_10_PE=[],
+                  top_10_growth=[], top_10_potential_profit=[], write_to_file=None):
+    tops = defaultdict()
+    tops = {'price': top_10_price, "PE": top_10_PE,
+            "growth": top_10_growth, "potential_profit": top_10_potential_profit}
+
+    if write_to_file:
+        for key, value in tops.items():
+            write_json('Top_10_' + key + '.json', value)
+
+    def wrapper(code, name, param, param_name):
+        return func(code, name, param, tops[param_name])
+        if PE:
+            return func(code, name, -PE, tops['PE'], 'P/E')
+        if growth:
+            return func(code, name, growth, tops['growth'], 'growth')
+        if potential_profit:
+            return func(code, name, potential_profit, tops['potential profit'], 'potential profit')
+
+    return wrapper
 
 
-def add_to_buffer(data, top, parameter):
-    if len(top) < 10:
-        top.append({data['code'], data['name'], data[parameter]})
-    elif data[parameter] >= top[0]:
+@write_results
+def add_to_buffer(code, name, param , top):
+    if top == []:
+        top.append([code, name, param])
+
+    elif param >= top[0][-1]:
+        if len(top) == 10:
             top.pop()
-            top.insert(0, data[parameter])
-    elif data[parameter] > top[-1]:
-        i = -2
-        while data[parameter] >= top[i]:
-            i -= -1
+        top.insert(0, [code, name, param])
+
+
+
+
+    elif len(top) < 10:
+        if param < top[-1][-1]:
+            top.append([code, name, param])
+            return
+
+
+        i = -1
+        while param >= top[i][-1]:
+            i -= 1
+        top.insert(i + 1, [code, name, param])
+
+
+    elif param > top[-1][-1]:
+        i = -1
+        while param >= top[i][-1]:
+            i -= 1
+        top.insert(i  + 1, [code, name, param])
         top.pop()
-        top.insert(i+1, data[parameter] )
 
 
+def just_function():
+    pass
 
 
-
-
-
-
-
-
-
-def main():
+async def main():
     start = datetime.now()
     url = 'https://markets.businessinsider.com/index/components/s&p_500'
     # all_companies = [(link, growth)
     #                  for link, growth in get_all_links(get_html(url))]
 
-    with open('index.html') as f:
-        html = f.read()
+    # with open('index.html') as f:
+    #     html = f.read()
 
-    all_companies = [[link, growth]
-                     for link, growth in get_all_links_and_growth(html)]
-    result = []
+    # tasks = [asyncio.create_task(make_all(link, growth))
+    #          for link, growth in get_all_links_and_growth(html)]
 
+    # all_companies = [[link, growth]
+    #                  for link, growth in get_all_links_and_growth(html)]
 
+    tasks = [asyncio.create_task(make_all(link, growth))
+             for link, growth in get_all_links_and_growth(get_html(url))]
 
+    await asyncio.gather(*tasks)
 
-
+    write_results(just_function, write_to_file=True)
 
     # with ThreadPoolExecutor() as p:
     #     write_results(p.map(make_all, all_companies))
@@ -189,8 +226,7 @@ def main():
     end = datetime.now()
     total = end - start
     print(str(total))
-    print(result)
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
