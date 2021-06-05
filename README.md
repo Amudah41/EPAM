@@ -7,3 +7,4 @@
 5. OOP vol.1
 6. OOP vol.2
 7. Idiomatic Python
+8. Object model
