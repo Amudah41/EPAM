@@ -1,0 +1,27 @@
+[
+    {
+        "stmt": "SELECT * FROM presidents;",
+        "header": [
+            "name",
+            "age",
+            "country"
+        ],
+        "rows": [
+            [
+                "Yeltsin",
+                "999",
+                "Russia"
+            ],
+            [
+                "Trump",
+                "1337",
+                "US"
+            ],
+            [
+                "Big Man Tyrone",
+                "101",
+                "Kekistan"
+            ]
+        ]
+    }
+]
