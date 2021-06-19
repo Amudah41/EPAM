@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
@@ -18,7 +17,7 @@ async def main_page_parsing(url):
     soup = BeautifulSoup(html, "lxml")
     tds = soup.find("tbody", class_="table__tbody")
     for link, growth in get_all_links_and_growth(tds):
-        await get_page_data(await fetch_response(link), growth)
+        company_page_parsing(await fetch_response(link), growth)
 
 
 def get_all_links_and_growth(tds):
@@ -32,10 +31,8 @@ def get_all_links_and_growth(tds):
         yield link, growth
 
 
-async def get_page_data(html, growth, i=[0]):
+def company_page_parsing(html, growth):
     soup = BeautifulSoup(html, "lxml")
-
-    i[0] += 1
 
     code = (
         soup.find("div", class_="price-section__row")
@@ -101,39 +98,39 @@ def write_results(
 
     if write_to_file:
         for key, value in tops.items():
-            write_json("Top_10_" + key + ".json", value)
+            write_json("./hw10/Top_10_" + key + ".json", value)
 
     def wrapper(code, name, param, param_name):
-        return func(code, name, param, tops[param_name])
+        return func(code, name, param, tops[param_name], param_name)
 
     return wrapper
 
 
 @write_results
-def add_to_buffer(code, name, param, top):
+def add_to_buffer(code, name, param, top, param_name):
     if not top:
-        top.append([code, name, param])
+        top.append({"code": code, "name": name, param_name: param})
 
-    elif param >= top[0][-1]:
+    elif param >= top[0][param_name]:
         if len(top) == 10:
             top.pop()
-        top.insert(0, [code, name, param])
+        top.insert(0, {"code": code, "name": name, param_name: param})
 
     elif len(top) < 10:
-        if param < top[-1][-1]:
-            top.append([code, name, param])
+        if param < top[-1][param_name]:
+            top.append({"code": code, "name": name, param_name: param})
             return
 
         i = -1
-        while param >= top[i][-1]:
+        while param >= top[i][param_name]:
             i -= 1
-        top.insert(i + 1, [code, name, param])
+        top.insert(i + 1, {"code": code, "name": name, param_name: param})
 
-    elif param > top[-1][-1]:
+    elif param > top[-1][param_name]:
         i = -1
-        while param >= top[i][-1]:
+        while param >= top[i][param_name]:
             i -= 1
-        top.insert(i + 1, [code, name, param])
+        top.insert(i + 1, {"code": code, "name": name, param_name: param})
         top.pop()
 
 
@@ -146,7 +143,7 @@ def to_float(number: str):
     try:
         return float(number.replace(",", "."))
     except ValueError:
-        return float(number.replace(",", "", len(number) - 4 // 3).replace(",", "."))
+        return float(number.replace(",", "", (len(number) - 4) // 3).replace(",", "."))
 
 
 def convertion_USD_to_RUB(func):
@@ -155,7 +152,9 @@ def convertion_USD_to_RUB(func):
         return func(to_float(price), USD)
 
     USD = to_float(
-        actual_exchange_rate(requests.get("http://www.cbr.ru/scripts/XML_daily.asp"))
+        actual_exchange_rate(
+            requests.get("http://www.cbr.ru/scripts/XML_daily.asp").text
+        )
     )
 
     return wrapper
@@ -164,18 +163,6 @@ def convertion_USD_to_RUB(func):
 @convertion_USD_to_RUB
 def convert(price, USD):
     return round(price * USD, 2)
-
-
-def get_html(url):
-    with requests.Session() as session:
-        response = session.get(url)
-    return response.text
-
-
-def get_html(url):
-    with requests.Session() as session:
-        response = session.get(url)
-    return response.text
 
 
 def write_json(file, data):
@@ -189,11 +176,9 @@ def pass_function():
 
 async def main():
     url = "https://markets.businessinsider.com/index/components/s&p_500?p="
-
     tasks = [
         asyncio.create_task(main_page_parsing(url + str(page))) for page in range(1, 11)
     ]
-
     await asyncio.gather(*tasks)
 
     write_results(pass_function, write_to_file=True)
@@ -205,6 +190,6 @@ if __name__ == "__main__":
     # event_loop = asyncio.get_event_loop()
     # event_loop.run_until_complete(main())
 
-    # Download Speed: 19.61 Mb/s
-    # Upload Speed : 31.09 Mb/s
-    # total time of parsing: 0:02:51.845959
+    # total time of parsing: 0:02:40.799727
+    # Download speed: 21.28 Mb/s
+    # Upload Speed : 28.65 Mb/s
