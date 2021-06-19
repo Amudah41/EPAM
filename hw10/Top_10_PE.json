@@ -1,0 +1,52 @@
+[
+    {
+        "code": "MRO",
+        "name": "Marathon Oil Corp.",
+        "PE": -12.88
+    },
+    {
+        "code": "GE",
+        "name": "General Electric Co.",
+        "PE": -12.99
+    },
+    {
+        "code": "HBAN",
+        "name": "Huntington Bancshares Inc.",
+        "PE": -13.52
+    },
+    {
+        "code": "HPE",
+        "name": "Hewlett Packard Enterprise Co.",
+        "PE": -14.74
+    },
+    {
+        "code": "F",
+        "name": "Ford Motor Co.",
+        "PE": -14.75
+    },
+    {
+        "code": "COG",
+        "name": "Cabot Oil & Gas Corp",
+        "PE": -15.89
+    },
+    {
+        "code": "PBCT",
+        "name": "People's United Financial IncShs",
+        "PE": -17.39
+    },
+    {
+        "code": "UA",
+        "name": "Under Armour Inc When Issued",
+        "PE": -17.58
+    },
+    {
+        "code": "HST",
+        "name": "Host Hotels & Resorts Inc.",
+        "PE": -17.8
+    },
+    {
+        "code": "KMI",
+        "name": "Kinder Morgan Inc (P)",
+        "PE": -18.29
+    }
+]

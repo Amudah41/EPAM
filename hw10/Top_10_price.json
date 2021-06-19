@@ -1,0 +1,52 @@
+[
+    {
+        "code": "AMZN",
+        "name": "Amazon",
+        "price": 251425.06
+    },
+    {
+        "code": "GOOG",
+        "name": "Alphabet C (ex Google)",
+        "price": 181095.66
+    },
+    {
+        "code": "GOOGL",
+        "name": "Alphabet A (ex Google)",
+        "price": 173764.45
+    },
+    {
+        "code": "CMG",
+        "name": "Chipotle Mexican Grill Inc.",
+        "price": 100676.91
+    },
+    {
+        "code": "AZO",
+        "name": "AutoZone Inc.",
+        "price": 100099.14
+    },
+    {
+        "code": "MTD",
+        "name": "Mettler-Toledo International Inc.",
+        "price": 97706.44
+    },
+    {
+        "code": "ISRG",
+        "name": "Intuitive Surgical Inc",
+        "price": 63371.57
+    },
+    {
+        "code": "BLK",
+        "name": "BlackRock Inc.",
+        "price": 60716.7
+    },
+    {
+        "code": "EQIX",
+        "name": "Equinix Inc",
+        "price": 59421.77
+    },
+    {
+        "code": "NVDA",
+        "name": "NVIDIA Corp.",
+        "price": 53675.09
+    }
+]
