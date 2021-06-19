@@ -134,7 +134,7 @@ def add_to_buffer(code, name, param, top, param_name):
         top.pop()
 
 
-def actual_exchange_rate(html):
+def actual_exchange_rate_page_parsing(html):
     soup = BeautifulSoup(html, "lxml")
     return soup.find("valute", id="R01235").find("value").text
 
@@ -146,13 +146,13 @@ def to_float(number: str):
         return float(number.replace(",", "", (len(number) - 4) // 3).replace(",", "."))
 
 
-def convertion_USD_to_RUB(func):
+def actual_USD(func):
     def wrapper(price):
 
         return func(to_float(price), USD)
 
     USD = to_float(
-        actual_exchange_rate(
+        actual_exchange_rate_page_parsing(
             requests.get("http://www.cbr.ru/scripts/XML_daily.asp").text
         )
     )
@@ -160,7 +160,7 @@ def convertion_USD_to_RUB(func):
     return wrapper
 
 
-@convertion_USD_to_RUB
+@actual_USD
 def convert(price, USD):
     return round(price * USD, 2)
 
