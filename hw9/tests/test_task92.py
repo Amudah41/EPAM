@@ -1,12 +1,11 @@
 import pytest
 
-from hw9.tasks.task92 import supressor_class, supressor_generator, Suppressor
+from hw9.tasks.task92 import supressor_class, supressor_generator
 
 
 def test_valid_error_class():
     with supressor_class(IndexError):
         [][2]
-
     assert True
 
 
