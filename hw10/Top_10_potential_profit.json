@@ -1,0 +1,52 @@
+[
+    {
+        "code": "ENPH",
+        "name": "Enphase Energy Inc",
+        "potential_profit": 5.5
+    },
+    {
+        "code": "LEN",
+        "name": "Lennar Corp.",
+        "potential_profit": 4.71
+    },
+    {
+        "code": "FMC",
+        "name": "FMC Corp.",
+        "potential_profit": 4.37
+    },
+    {
+        "code": "NTAP",
+        "name": "NetApp Inc.",
+        "potential_profit": 4.35
+    },
+    {
+        "code": "AMAT",
+        "name": "Applied Materials Inc.",
+        "potential_profit": 4.27
+    },
+    {
+        "code": "NVDA",
+        "name": "NVIDIA Corp.",
+        "potential_profit": 4.26
+    },
+    {
+        "code": "PYPL",
+        "name": "PayPal Inc",
+        "potential_profit": 4.19
+    },
+    {
+        "code": "PNW",
+        "name": "Pinnacle West Capital Corp.",
+        "potential_profit": 4.18
+    },
+    {
+        "code": "LNC",
+        "name": "Lincoln National Corp.",
+        "potential_profit": 4.16
+    },
+    {
+        "code": "MU",
+        "name": "Micron Technology Inc.",
+        "potential_profit": 4.14
+    }
+]
