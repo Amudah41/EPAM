@@ -17,11 +17,10 @@ class supressor_class:
         self.err = err
 
     def __enter__(self):
-        ...
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        if exc_type == self.err:
-            sys.excepthook = lambda x, y, z: ...
+        return issubclass(exc_type, self.err)
 
 
 @contextmanager
