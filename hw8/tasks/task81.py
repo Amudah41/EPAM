@@ -27,28 +27,29 @@ File size is expected to be small, you are permitted to read it entirely into me
 """
 from keyword import iskeyword
 from typing import Iterable
+from typing import Union, Tuple
 
 
 class KeyValueStorage:
     def __init__(self, path: str) -> None:
         with open(path) as input:
-            self.items = {key: value for key, value in self.splited_lines(input)}
+            self.items = {key: value for key, value in self.splited_line(input)}
 
     @staticmethod
-    def splited_lines(input: Iterable):
+    def splited_line(input: Iterable) -> Tuple[str, str]:
         for line in input:
             line = line.replace("\n", "").split("=")
             if not line[0].isidentifier() or iskeyword(line[0]):
                 raise ValueError("Value cannot be assigned to an attribute.")
             yield line[0], line[1]
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> Union[int, str]:
         try:
             return int(self.items[key])
         except:
             return self.items[key]
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> Union[int, str]:
         try:
             return int(self.items[name])
         except:
