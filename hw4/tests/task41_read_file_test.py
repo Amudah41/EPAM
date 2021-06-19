@@ -1,6 +1,8 @@
 from typing import Callable, List
 from unittest.mock import MagicMock, patch
 
+from unittest.mock import patch, mock_open
+
 import pytest
 
 import hw4
@@ -54,6 +56,11 @@ def test_file_producer(text, expected_result):
         return open(file, "r").readline().strip()
 
     assert file_producer(text)(readline_function) == expected_result
+
+
+def test_valid_item_name_with_mock():
+    with patch("builtins.open", mock_open(read_data="1\n smth")) as mock_input:
+        assert read_magic_number_only_value_error("_.txt")
 
 
 # @pytest.fixture()
