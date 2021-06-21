@@ -9,17 +9,16 @@ Do it both ways: as a class and as a generator.
 
 
 from contextlib import contextmanager
-import sys
 
 
 class supressor_class:
-    def __init__(self, err: BaseException):
+    def __init__(self, err: BaseException) -> None:
         self.err = err
 
-    def __enter__(self):
+    def __enter__(self) -> "supressor_class":
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback) -> bool:
         return issubclass(exc_type, self.err)
 
 
