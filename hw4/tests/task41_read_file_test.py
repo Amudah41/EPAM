@@ -1,9 +1,7 @@
-from typing import Callable, List
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch, mock_open
 
 import pytest
 
-import hw4
 from hw4.tasks.task41_read_file import (
     file_producer,
     is_useful_number,
@@ -56,40 +54,18 @@ def test_file_producer(text, expected_result):
     assert file_producer(text)(readline_function) == expected_result
 
 
-# @pytest.fixture()
-# def my_path(monkeypatch):
-#     mock = MagicMock()
-#     mock.return_value.readline.return_value = '2'
-
-#     monkeypatch.setattr(
-#         hw4.tasks.task41_read_file,
-#         "builtin.open",
-#         mock
-#     )
+def test_valid_item_name_in_range_with_mock():
+    with patch("builtins.open", mock_open(read_data="1\n smth")) as mock_input:
+        assert read_magic_number_only_value_error("_.txt")
 
 
-# def test_read_magic_number_all_exceptions_positive_test(my_path):
-#     assert read_magic_number_all_exceptions(my_path)
+def test_valid_item_name_not_in_range_with_mock():
+    with patch("builtins.open", mock_open(read_data="6\n smth")) as mock_input:
+        assert not read_magic_number_only_value_error("_.txt")
 
 
-# from unittest import TestCase
-# from unittest.mock import patch, Mock
-
-
-# class TestBlog(TestCase):
-#     @patch('main.Blog')
-#     def test_blog_posts(self, MockBlog):
-#         blog = MockBlog()
-
-#         blog.posts.return_value = [
-#             {
-#                 'userId': 1,
-#                 'id': 1,
-#                 'title': 'Test Title',
-#                 'body': 'Far out in the uncharted backwaters of the unfashionable end of the western spiral arm of the Galaxy\ lies a small unregarded yellow sun.'
-#             }
-#         ]
-
-#         response = blog.posts()
-#         self.assertIsNotNone(response)
-#         self.assertIsInstance(response[0], dict)
+def test_not_valid_item_name_with_mock():
+    with patch(
+        "builtins.open", mock_open(read_data="smth_not_integer\n smth")
+    ) as mock_input, pytest.raises(ValueError, match="Somthing came wrong."):
+        assert read_magic_number_only_value_error("_.txt")
