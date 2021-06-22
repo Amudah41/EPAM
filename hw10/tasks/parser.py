@@ -119,7 +119,7 @@ def add_to_buffer(code, name, param, top, param_name):
     elif len(top) < 10:
         if param < top[-1][param_name]:
             top.append({"code": code, "name": name, param_name: param})
-            return
+            return None
 
         i = -1
         while param >= top[i][param_name]:
